@@ -7,11 +7,11 @@
 
 import Foundation
 
-class ConcetrationGame {
+struct ConcetrationGame {
     
-    var cards = [Card] ()
+    private(set) var cards = [Card] ()
     
-    var indexOfOneOnlyFaceUpCard: Int? {
+    private var indexOfOneOnlyFaceUpCard: Int? {
         get {
             var foundIndex: Int?
             for index in cards.indices {
@@ -32,10 +32,10 @@ class ConcetrationGame {
         }
     }
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
         if !cards[index].isMatched {
             if let matchingIndex = indexOfOneOnlyFaceUpCard, matchingIndex != index {
-                if cards[matchingIndex].identifier == cards[index].identifier {
+                if cards[matchingIndex] == cards[index] {
                     cards[matchingIndex].isMatched = true
                     cards[index].isMatched = true
                 }
@@ -49,8 +49,7 @@ class ConcetrationGame {
     init(nubmerOfPairsOfCard: Int) {
         for _ in 1...nubmerOfPairsOfCard {
             let card = Card()
-            cards.append(card)
-            cards.append(card)
+            cards += [card,card]
         }
     }
 }
